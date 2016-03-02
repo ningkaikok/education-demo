@@ -3,9 +3,9 @@
  * DOMContentLoaded,在文档创建时,就访问dom元素.比window.onload要快很多.绑定需要执行的函数.
  * @param  {Function} fn 需要执行的函数
  * @return {执行}      在dom节点创建时,同时执行,window.onload等到节点全部创建完毕才执行
- * myReady(function(){});
+ * domReady(function(){});
  */
-function myReady(fn) {
+function domReady(fn) {
     //对于现代浏览器，对DOMContentLoaded事件的处理采用标准的事件绑定方式
     if (document.addEventListener) {
         document.addEventListener("DOMContentLoaded", fn, false);
@@ -52,43 +52,42 @@ function myReady(fn) {
 /*cookie设置的三个函数*/
 /**
  * 设置cookie
- * @param {String} name  设置cookie名
+ * @param {String} c_name  设置cookie名
  * @param {String} value 对对应的cookie名
- * @param {Number} expires  有效期
+ * @param {Number} expiredays  有效期
  */
-function setCookie(name, value, expires) {
-    var oDate = new Date();
-    oDate.setDate(oDate.getDate() + expires);
-    document.cookie = name + "=" + value + ";expires=" + oDate;
-    console.log(document.cookie);
+function setCookie(c_name, value, expiredays) {
+    var exdate = new Date();
+    exdate.setDate(exdate.getDate() + expiredays);
+    document.cookie=c_name+ "=" +escape(value)+
+((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
 }
 /**
  * 获取cookie
  * @param   {String} name 待寻找的cookie名
  * @returns {String} 返回寻找到的cookie值无时为空
  */
-function getCookie(name) {
-    //"username=abc","password=123456",
-    var arr = document.cookie.split("; ");
-    //0: "username=abc"
-    //1: "password=123456"
-    for (var i = 0, len = arr.length; i < len; i++) {
-        var arr2 = arr[i].split("=");
-        // getCookie("username"),传入username时
-        //0: "username"
-        //1: "abc"
-        if (arr2[0] == name) {
-            return arr2[1];
-        }
-    }
-    return "";
+function getCookie(c_name)
+{
+if (document.cookie.length>0)
+  {
+  c_start=document.cookie.indexOf(c_name + "=")
+  if (c_start!=-1)
+    { 
+    c_start=c_start + c_name.length+1 
+    c_end=document.cookie.indexOf(";",c_start)
+    if (c_end==-1) c_end=document.cookie.length
+    return unescape(document.cookie.substring(c_start,c_end))
+    } 
+  }
+return ""
 }
 /**
  * 删除cookie
  * @param {String} name 待删除的cookie名
  */
-function removeCookie(name) {
-    setCookie(name, "1", -1);
+function removeCookie(c_name) {
+    setCookie(c_name, "1", -1);
 }
 
 
@@ -292,7 +291,7 @@ function $(id) {
 /*
  *顶部通知条,不再提醒cookie
  */
-myReady(function () {
+domReady(function () {
     var oNotice = $("notice");
     var oClose = $("no-notice");
     //判断顶部通知是否含有cookie
@@ -316,7 +315,7 @@ myReady(function () {
 /**
  * 关注与登录模块开始
  */
-myReady(function () {
+domReady(function () {
     var follow = $("follow");
     var followAdd = follow.getElementsByTagName("span")[0];
     var removeDefine = getByClassName(follow, "remove-define")[0];
@@ -421,7 +420,7 @@ myReady(function () {
 /**
  * 轮播图开始,待修改,应该写一个轮播图组件.
  */
-myReady(function () {
+domReady(function () {
     var Slideshow = getByClassName(document, "Slideshow")[0];
     var aImg = Slideshow.getElementsByTagName("a");
     var aLI = Slideshow.getElementsByTagName("li");
@@ -475,7 +474,7 @@ myReady(function () {
 /*
  * 生活环境图片无缝滚动
  */
-myReady(function () {
+domReady(function () {
     var environment = getByClassName(document, "environment")[0];
     var environmentUl = getByClassName(environment, "environment-ul")[0];
     var environmentLi = environmentUl.getElementsByTagName("li");
@@ -504,7 +503,7 @@ myReady(function () {
 /*
  *视频播放开始
  */
-myReady(function () {
+domReady(function () {
     var moivePlayer = getByClassName(document, "studyMoive")[0].getElementsByTagName("img")[0];
     var playerWrap = getByClassName(document, "moive-wrap")[0];
     var closeMoive = $("moive-close");
@@ -533,7 +532,7 @@ myReady(function () {
 /*
  * 课程列表开始
  */
-myReady(function () {
+domReady(function () {
     var design = getByClassName(document, "design")[0];
     var typeNumber = 10;
     var tabDesign = getByClassName(document, "conent-tab")[0].getElementsByTagName("li")[0];
@@ -803,7 +802,7 @@ myReady(function () {
 /*
  * 热门排行开始
  */
-myReady(function () {
+domReady(function () {
     var ranking = getByClassName(document, "ranking-list")[0];
 
     Ajax("get", "http://study.163.com/webDev/hotcouresByCategory.htm", {}, function (str) {
