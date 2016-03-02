@@ -1,6 +1,6 @@
-//工具函数
+//封装工具函数
 /**
- * DomReady,在文档创建时,就访问dom元素.比window.onload要快很多.绑定需要执行的函数.
+ * DOMContentLoaded,在文档创建时,就访问dom元素.比window.onload要快很多.绑定需要执行的函数.
  * @param  {Function} fn 需要执行的函数
  * @return {执行}      在dom节点创建时,同时执行,window.onload等到节点全部创建完毕才执行
  * myReady(function(){});
@@ -17,7 +17,7 @@ function myReady(fn) {
         var d = window.document;
         var done = false;
 
-        //只执行一次用户的回调函数init()&#xe603;
+        //只执行一次用户的回调函数init();
         var init = function () {
             if (!done) {
                 done = true;
@@ -54,12 +54,13 @@ function myReady(fn) {
  * 设置cookie
  * @param {String} name  设置cookie名
  * @param {String} value 对对应的cookie名
- * @param {Number} iDay  过期的时间(多少天后)
+ * @param {Number} expires  有效期
  */
-function setCookie(name, value, iDay) {
+function setCookie(name, value, expires) {
     var oDate = new Date();
-    oDate.setDate(oDate.getDate() + iDay);
+    oDate.setDate(oDate.getDate() + expires);
     document.cookie = name + "=" + value + ";expires=" + oDate;
+    console.log(document.cookie);
 }
 /**
  * 获取cookie
