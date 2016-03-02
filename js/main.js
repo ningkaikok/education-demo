@@ -56,12 +56,13 @@ function domReady(fn) {
  * @param {String} value 对对应的cookie名
  * @param {Number} expiredays  有效期
  */
-function setCookie(c_name, value, expiredays) {
-    var exdate = new Date();
-    exdate.setDate(exdate.getDate() + expiredays);
+function setCookie(c_name,value,expiredays)
+ {
+    var exdate=new Date()
+    exdate.setDate(exdate.getDate()+expiredays)
     document.cookie=c_name+ "=" +escape(value)+
-((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
-}
+    ((expiredays==null) ? "" : ";expires="+exdate.toGMTString())
+ }
 /**
  * 获取cookie
  * @param   {String} name 待寻找的cookie名
