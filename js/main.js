@@ -112,16 +112,16 @@ function getStyle(obj, attr) {
 
 /**通过class类名来选取元素
  * @param   {Object} parent 父级对象,
- * @param   {String} sClass className类名
+ * @param   {String} childrenClass className类名
  * @returns {Array}  获取到的节点数组
  */
-function getByClassName(parent, sClass) {
+function getByClassName(parent, childrenClass) {
     if (parent.getElementsByClassName) {
-        return parent.getElementsByClassName(sClass);
+        return parent.getElementsByClassName(childrenClass);
     } else {
         var oEle = parent.getElementsByTagName("*"),
             arr = [],
-            reg = new RegExp("\\b" + sClass + "\\b");
+            reg = new RegExp("\\b" + childrenClass + "\\b");
         for (var i = 0, len = oEle.length; i < len; i++) {
             if (reg.test(oEle[i].className)) {
                 arr.push(oEle[i]);
@@ -213,7 +213,7 @@ function myAddEvent(obj, type, fn) {
  * @param {Function} failed  请求失败执行的函数.
  */
 function Ajax(type, url, data, success, failed) {
-    // 1.创建ajax对象
+    // 1.创建异步调用对象
     var xhr = null;
     if (window.XMLHttpRequest) {
         xhr = new XMLHttpRequest();
@@ -285,7 +285,7 @@ function $(id) {
     return document.getElementById(id);
 }
 
-//工具函数包结束
+//工具函数结束
 
 
 //页面逻辑开始
@@ -419,7 +419,7 @@ domReady(function () {
 /*关注与登录结束*/
 
 /**
- * 轮播图开始,待修改,应该写一个轮播图组件.
+ * 轮播图开始.
  */
 domReady(function () {
     var Slideshow = getByClassName(document, "Slideshow")[0];
